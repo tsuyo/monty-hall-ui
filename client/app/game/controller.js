@@ -5,16 +5,17 @@
 	module.exports = {
 
 		/**
-		 * Client-side observable data container for doors data
-		 * @required
-		 */
-		doors: null,
-
-		/**
 		 * The game API that manages the game and door state
 		 * @required
 		 */
 		gameApi: null,
+
+		/**
+		 * Method to pdates a single door
+		 * @required
+		 * @type {Function}
+		 */
+		_updateDoor: null,
 
 		selectDoor: function (door) {
 			// Can't select already-opened doors
@@ -27,7 +28,6 @@
 			if(this._doSelectDoor !== this._switchOrStay) {
 				this._doSelectDoor = this._switchOrStay;
 			} else {
-				// TODO: Transition to final state
 				this._doSelectDoor = noop;
 			}
 
@@ -48,7 +48,7 @@
 				this.game.status = 'AWAITING_FINAL_SELECTION';
 
 				return this.game.doors
-					.then(this._updateDoorsData.bind(this))
+					.then(this._updateDoors.bind(this))
 					.then(function() {
 						return selectedDoor;
 					});
@@ -60,15 +60,15 @@
 				return;
 			}
 
-			var self, game, updateDoorsData;
+			var self, game, updateDoors;
 
 			self = this;
 			game = this.game;
-			updateDoorsData = this._updateDoorsData.bind(this);
+			updateDoors = this._updateDoors.bind(this);
 
 			return this.gameApi.openDoor(door).then(function(openedDoor) {
 				return game.doors
-					.then(updateDoorsData)
+					.then(updateDoors)
 					.then(function() {
 						return game.self;
 					})
@@ -80,25 +80,23 @@
 		},
 
 		_startGame: function() {
-			var self, doors;
+			var self;
 
 			self = this;
-			doors = this.doors;
 
 			return this.gameApi.createGame()
 				.then(function(game) {
 					self.game = game;
 					return game.doors;
 				})
-				.then(this._updateDoorsData.bind(this))
+				.then(this._updateDoors.bind(this))
 				.then(function() {
 					return self.game;
 				});
 		},
 
-		_updateDoorsData: function(doorData) {
-			doorData.doors.forEach(this.doors.update);
-			return doorData;
+		_updateDoors: function(doorData) {
+			doorData.doors.forEach(this._updateDoor);
 		}
 
 	};
