@@ -1,6 +1,3 @@
-(function(define) {
-define(function(require) {
-
 	var when, doorData;
 
 	when = require('when');
@@ -14,7 +11,7 @@ define(function(require) {
 			'status':'CLOSED','content':'UNKNOWN'}
 	];
 
-	return {
+	module.exports = {
 		createGame: createGame,
 		getGame: function() {
 			return this.game;
@@ -91,6 +88,3 @@ define(function(require) {
 
 		return when.resolve(game);
 	}
-
-});
-})(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); });

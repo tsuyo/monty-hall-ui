@@ -1,6 +1,3 @@
-(function (define) {
-define(['require', 'module'], function (require, module) {
-
 	var when;
 
 	when = require('when');
@@ -107,10 +104,3 @@ define(['require', 'module'], function (require, module) {
 	};
 
 	function noop() {}
-
-});
-}(
-	typeof define == 'function' && define.amd
-		? define
-		: function (factory) { module.exports = factory(require); }
-));

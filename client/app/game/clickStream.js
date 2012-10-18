@@ -1,6 +1,3 @@
-(function (define) {
-define(function (require) {
-
 	var clicks, dom3, touch, integration;
 
 	clicks = require('clicks');
@@ -12,8 +9,8 @@ define(function (require) {
 	integration = require('integration/integration');
 	require('integration/aggregators/batching');
 	require('integration/channels/pubsub');
-	
-	return function () {
+
+	module.exports = function () {
 		var bus;
 
 		return {
@@ -43,10 +40,3 @@ define(function (require) {
 			}
 		}
 	};
-
-});
-}(
-	typeof define == 'function' && define.amd
-		? define
-		: function (factory) { module.exports = factory(require); }
-));

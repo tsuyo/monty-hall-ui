@@ -1,9 +1,6 @@
-(function(define) {
-define(function(require) {
-
 	var when = require('when');
 
-	return {
+	module.exports = {
 		createGame: function() {
 			return this.gameClient({ path: this.host, method: 'POST' })
 				.then(function(game) {
@@ -12,16 +9,16 @@ define(function(require) {
 				}.bind(this)
 			);
 		},
-		
+
 		getGame: function() {
 			return this.game ? this.game.self : when.reject();
 		},
-		
+
 		selectDoor: function(doorToSelect) {
 			doorToSelect.status = 'SELECTED';
 			return updateDoor.call(this, doorToSelect);
 		},
-		
+
 		openDoor: function(doorToOpen) {
 			doorToOpen.status = 'OPENED';
 			return updateDoor.call(this, doorToOpen);
@@ -36,6 +33,3 @@ define(function(require) {
 			return door;
 		}.bind(this));
 	}
-
-});
-})(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); });

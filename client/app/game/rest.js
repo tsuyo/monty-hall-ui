@@ -1,4 +1,4 @@
-define({
+module.exports = {
 	$exports: {
 		create: 'app/game/restApi',
 		properties: {
@@ -35,4 +35,4 @@ define({
 	plugins: [
 		{ module: 'rest/wire' }
 	]
-});
+}

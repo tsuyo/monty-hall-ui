@@ -13,6 +13,11 @@
 		paths: {},
 
 		packages: [
+			// pseudo-package to transpile from CJS Modules to AMD
+			{ name: 'app/game', location: 'app/game', main: 'controller',
+				config: { moduleLoader: 'curl/loader/cjsm11' }
+			},
+
 			// cujojs/curl - a small, fast AMD & CJS module loader
 			{ name: 'curl', location: 'lib/curl/src/curl', main: '../curl' },
 
